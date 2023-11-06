@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  table {
+    font-family: Arial, sans-serif;
+    border-collapse: collapse;
+    width: 50%;
+    margin: 20px 0;
+  }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
+
+  .active {
+    background-color: red;
+    color: white;
+  }
+</style>
+</head>
+<body>
+
+<button onclick="sortBooks('asc')">Цена ↑</button>
+<button onclick="sortBooks('desc')">Цена ↓</button>
+
+<table id="booksTable">
+  <tr>
+    <th>Название книги</th>
+    <th>Цена</th>
+  </tr>
+  <tr>
+    <td>1984</td>
+    <td>$25</td>
+  </tr>
+  <tr>
+    <td>Война и мир</td>
+    <td>$30</td>
+  </tr>
+  <tr>
+    <td>Гордость и предубеждение</td>
+    <td>$20</td>
+  </tr>
+  <tr>
+    <td>Тень ветра</td>
+    <td>$18</td>
+  </tr>
+  <tr>
+    <td>Мастер и Маргарита</td>
+    <td>$22</td>
+  </tr>
+  <tr>
+    <td>Маленький принц</td>
+    <td>$15</td>
+  </tr>
+  <tr>
+    <td>Анна Каренина</td>
+    <td>$28</td>
+  </tr>
+</table>
+
+<script>
+function sortBooks(order) {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("booksTable");
+  switching = true;
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("TD")[1];
+      y = rows[i + 1].getElementsByTagName("TD")[1];
+      if (order === 'asc' && Number(x.innerHTML.substring(1)) > Number(y.innerHTML.substring(1))) {
+        shouldSwitch = true;
+        break;
+      } else if (order === 'desc' && Number(x.innerHTML.substring(1)) < Number(y.innerHTML.substring(1))) {
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+  var currentActive = document.querySelector('.active');
+  if (currentActive) {
+    currentActive.classList.remove('active');
+  }
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>
